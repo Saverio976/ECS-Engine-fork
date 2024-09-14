@@ -3,7 +3,7 @@ A simple ECS template to fork.
 
 Using SFML for rendering and input handling.
 
-## Dependencies
+## To know
 When compiling, it will download the SFML on its own.
 
 
