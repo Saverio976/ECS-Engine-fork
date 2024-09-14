@@ -19,6 +19,3 @@ enum Direction
     LEFT,
     RIGHT
 };
-
-sf::Vector2f getDirection(Direction direction);
-sf::Vector2f getPositionOfTile(int x, int y);
