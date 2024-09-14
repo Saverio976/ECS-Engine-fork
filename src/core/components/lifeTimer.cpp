@@ -2,7 +2,7 @@
  * ECS by Benjamin Bourge *
  *------------------------*/
 
-#include "../../../../include/core/components/lifeTimer.hpp"
+#include "../../../include/core/components/lifeTimer.hpp"
 
 LifeTimer::LifeTimer()
 {

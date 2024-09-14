@@ -2,7 +2,7 @@
  * ECS by Benjamin Bourge *
  *------------------------*/
 
-#include "../../../../include/core/components/tag.hpp"
+#include "../../../include/core/components/tag.hpp"
 
 Tag::Tag()
 {

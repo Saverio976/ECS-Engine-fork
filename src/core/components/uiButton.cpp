@@ -3,8 +3,8 @@
  *------------------------*/
 
 #include <SFML/Graphics.hpp>
-#include "../../../../include/core/components/uiButton.hpp"
-#include "../../../../include/core/components/transform.hpp"
+#include "../../../include/core/components/uiButton.hpp"
+#include "../../../include/core/components/transform.hpp"
 
 UiButton::UiButton()
 {

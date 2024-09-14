@@ -2,7 +2,7 @@
  * ECS by Benjamin Bourge *
  *------------------------*/
 
-#include "../../../../include/core/components/camera.hpp"
+#include "../../../include/core/components/camera.hpp"
 
 Camera::Camera()
 {

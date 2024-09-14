@@ -2,7 +2,7 @@
  * ECS by Benjamin Bourge *
  *------------------------*/
 
-#include "../../../../include/core/components/interactionBoxCollider.hpp"
+#include "../../../include/core/components/interactionBoxCollider.hpp"
 
 InteractionBoxCollider::InteractionBoxCollider()
 {

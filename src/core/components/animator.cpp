@@ -2,7 +2,7 @@
  * ECS by Benjamin Bourge *
  *------------------------*/
 
-#include "../../../../include/core/components/animator.hpp"
+#include "../../../include/core/components/animator.hpp"
 
 Animator::Animator()
 {

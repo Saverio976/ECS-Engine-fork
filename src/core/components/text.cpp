@@ -4,7 +4,7 @@
 
 #include <utility>
 
-#include "../../../../include/core/components/text.hpp"
+#include "../../../include/core/components/text.hpp"
 
 Text::Text()
 {

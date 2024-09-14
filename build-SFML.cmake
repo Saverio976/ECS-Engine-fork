@@ -17,3 +17,11 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     sfml-audio
     sfml-network
 )
+
+target_link_libraries(${PROJECT_NAME}_Server PRIVATE
+        sfml-system
+        sfml-window
+        sfml-graphics
+        sfml-audio
+        sfml-network
+)

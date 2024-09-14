@@ -5,6 +5,7 @@
 #pragma once
 #include <iostream>
 #include <SFML/Graphics.hpp>
+#include <SFML/Network.hpp>
 
 bool isServer();
 bool isDebug();

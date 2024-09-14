@@ -97,7 +97,7 @@ void NetworkManager::receivePacket()
 void functionPing(const std::vector<unsigned char>& data, int id)
 {
     std::shared_ptr<Coordinator> coordinator = getCoordinator();
-    coordinator->sendPacket(coordinator->makePacket(CMD_PING, {}), id);
+    coordinator->sendPacket(coordinator->makePacket(0x00, {}), id);
 }
 
 

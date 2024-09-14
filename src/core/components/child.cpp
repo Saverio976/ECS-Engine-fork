@@ -2,9 +2,9 @@
  * ECS by Benjamin Bourge *
  *------------------------*/
 
-#include "../../../../include/core/components/child.hpp"
-#include "../../../../include/core/coordinator.hpp"
-#include "../../../../include/core/components/transform.hpp"
+#include "../../../include/core/components/child.hpp"
+#include "../../../include/core/coordinator.hpp"
+#include "../../../include/core/components/transform.hpp"
 
 Child::Child()
 {
