@@ -11,7 +11,7 @@ void Coordinator::initWindow()
 
 bool isServer()
 {
-    return false;
+    return true;
 }
 
 bool exitFlag = false;

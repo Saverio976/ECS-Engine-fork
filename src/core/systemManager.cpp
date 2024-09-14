@@ -103,7 +103,7 @@ void SystemManager::update(float deltaTime)
         end = clock();
         double elapsed = double(end - start) / CLOCKS_PER_SEC;
         if (elapsed > biggest) {
-            biggest = (float)elapsed;
+            biggest = (float) elapsed;
             name = typeid(*system.second).name();
         }
     }

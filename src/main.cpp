@@ -44,7 +44,7 @@ int main()
     if (serverRunning())
         return 0;
 
-    int fps = 0;
+    int fps = 60;
     float timerFps = 0;
     while (coordinator->_window->isOpen()) {
         sf::Event event;
