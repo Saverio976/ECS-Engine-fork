@@ -5,7 +5,8 @@ project(${PROJECT_NAME})
 
 set(CMAKE_CXX_STANDARD 14)
 
-file( GLOB SRC src/*.cpp src/core/*.cpp src/core/systems/*.cpp src/core/components/*.cpp)
+file( GLOB SRC src/*.cpp src/core/*.cpp src/core/systems/*.cpp src/core/components/*.cpp
+        src/content/*.cpp src/content/systems/*.cpp src/content/components/*.cpp)
 file (GLOB CLIENT src/client/*.cpp)
 file (GLOB SERVER src/server/*.cpp)
 
