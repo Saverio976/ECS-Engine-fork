@@ -44,6 +44,7 @@ void Coordinator::update()
     _entitiesToKill.clear();
     _deltaTime = _clock.getElapsedTime().asSeconds();
     _clock.restart();
+    _mouse.update();
     _systemManager->update(_deltaTime);
 
     receivePacket();

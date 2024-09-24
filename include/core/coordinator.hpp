@@ -10,6 +10,7 @@
 #include "systemManager.hpp"
 #include "texture.hpp"
 #include "networkManager.hpp"
+#include "mouse.hpp"
 
 class Coordinator
 {
@@ -56,6 +57,8 @@ public:
     void loadTextures();
 
     float _deltaTime;
+
+    Mouse _mouse;
 
     /*
      * Debug
