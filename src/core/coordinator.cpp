@@ -110,6 +110,13 @@ std::vector<Entity> Coordinator::getEntitiesFromTag(std::string tag)
     return finalEntities;
 }
 
+void Coordinator::removeEntitiesFromTag(std::string tag)
+{
+    std::vector<Entity> entities = getEntitiesFromTag(tag);
+    for (auto &e : entities)
+        killEntity(e);
+}
+
 void Coordinator::sendPacket(std::vector<unsigned char> data, int id)
 {
     _networkManager->sendPacket(data, id);

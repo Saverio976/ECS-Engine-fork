@@ -26,6 +26,8 @@ public:
     Entity getEntityFromTag(std::string tag);
     std::vector<Entity> getEntitiesFromTag(std::string tag);
 
+    void removeEntitiesFromTag(std::string tag);
+
     /*Entity Creation and Destruction*/
     Entity createEntity();
     void destroyEntity(Entity entity);
