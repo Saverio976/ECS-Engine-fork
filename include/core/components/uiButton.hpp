@@ -7,6 +7,7 @@
 #include <memory>
 #include <queue>
 #include <map>
+#include <SFML/Graphics.hpp>
 #include "../entity.hpp"
 #include "transform.hpp"
 
@@ -36,6 +37,8 @@ public:
     bool _isHovered;
     float _currentSize;
     float _zoomEffect;
+    float _zoomSpeed;
+    float _dezoomSpeed;
 
     //Activated
     void setFunctionActivated(void (*function)(Entity));
