@@ -35,6 +35,7 @@ public:
     bool _zoomWhenHovered;
     bool _isHovered;
     float _currentSize;
+    float _zoomEffect;
 
     //Activated
     void setFunctionActivated(void (*function)(Entity));

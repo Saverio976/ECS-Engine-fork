@@ -12,6 +12,7 @@ UiButton::UiButton()
     _zoomWhenHovered = false;
     _isHovered = false;
     _currentSize = 1;
+    _zoomEffect = 1.05;
     _delay = 0;
     _isActivated = false;
     _firstFrameClicked = false;
