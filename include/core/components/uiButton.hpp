@@ -18,6 +18,7 @@ public:
     ~UiButton();
 
     Entity _text;
+    int _id;
 
     //Clicking
     void (*_functionClicked)(Entity);
