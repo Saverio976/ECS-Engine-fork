@@ -34,6 +34,7 @@ void SystemManager::init()
     registerSystem<ChildSystem>();
     registerSystem<TextRenderingSystem>();
     registerSystem<PlayerMovementSystem>();
+    registerSystem<PhysicsSystem>();
 }
 
 void SystemManager::entityDestroyed(Entity entity)

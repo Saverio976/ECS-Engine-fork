@@ -17,5 +17,6 @@
 #include "components/uiButton.hpp"
 #include "components/child.hpp"
 #include "components/text.hpp"
-#include "../components/playerController.hpp"
+#include "components/rigidBody.hpp"
 
+#include "../components/playerController.hpp"

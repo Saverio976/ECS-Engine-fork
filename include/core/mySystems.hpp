@@ -14,6 +14,7 @@
 #include "systems/uiButtonSystem.hpp"
 #include "systems/childSystem.hpp"
 #include "systems/textRenderingSystem.hpp"
-#include "../systems/playerMovementSystem.hpp"
+#include "systems/physicsSystem.hpp"
 
+#include "../systems/playerMovementSystem.hpp"
 
