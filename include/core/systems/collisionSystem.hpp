@@ -18,10 +18,9 @@ public:
     void addedEntity(Entity entity) override;
     void removedEntity(Entity entity) override;
 
-    std::vector<std::vector<Entity>> _chuncks;
-
     void entityMoved(Entity entity);
-    void removeEntityChunck(Entity entity);
-    void setEntityChunck(Entity entity);
-    std::vector<Entity> getAllEntitiesNear(int thisChunck);
+
+    std::vector<Entity> _entityMoved;
+
+    void drawDebugBoxes();
 };
