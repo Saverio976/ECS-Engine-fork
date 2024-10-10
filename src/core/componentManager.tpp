@@ -9,33 +9,36 @@ std::shared_ptr<ComponentArray<T>> ComponentManager::getComponentArray()
 {
     const char* typeName = typeid(T).name();
 
-    for (auto const& pair : _componentsArray)
-        if (pair.first == typeName)
-            return std::static_pointer_cast<ComponentArray<T>>(pair.second);
-    return nullptr;
+    if (_componentsArray.find(typeName) == _componentsArray.end()) {
+        std::cerr << "Component not registered" << std::endl;
+        return nullptr;
+    }
+    return std::static_pointer_cast<ComponentArray<T>>(_componentsArray[typeName]);
 }
 
 template <typename T>
 void ComponentManager::addComponent(Entity entity)
 {
-    if (getComponentArray<T>() == nullptr) {
+    std::shared_ptr<ComponentArray<T>> componentArray = getComponentArray<T>();
+    if (componentArray == nullptr) {
         std::cerr << "Component not registered" << std::endl;
         return;
     }
-    getComponentArray<T>()->addComponent(entity);
-    Signature signature = getComponentSignature<T>();
+    componentArray->addComponent(entity);
+    Signature signature = componentArray->getSignature();
     Signature entitySignature = _entityManager->getSignature(entity);
     _entityManager->setSignature(entity, entitySignature | signature);
 }
 
 template <typename T>
 void ComponentManager::addComponent(Entity entity, T componentType) {
-    if (getComponentArray<T>() == nullptr) {
+    std::shared_ptr<ComponentArray<T>> componentArray = getComponentArray<T>();
+    if (componentArray == nullptr) {
         std::cerr << "Component not registered" << std::endl;
         return;
     }
-    getComponentArray<T>()->addComponent(entity, componentType);
-    Signature signature = getComponentSignature<T>();
+    componentArray->addComponent(entity, componentType);
+    Signature signature = componentArray->getSignature();
     Signature entitySignature = _entityManager->getSignature(entity);
     _entityManager->setSignature(entity, entitySignature | signature);
 }
@@ -43,12 +46,13 @@ void ComponentManager::addComponent(Entity entity, T componentType) {
 template <typename T>
 void ComponentManager::removeComponent(Entity entity)
 {
-    if (getComponentArray<T>() == nullptr) {
+    std::shared_ptr<ComponentArray<T>> componentArray = getComponentArray<T>();
+    if (componentArray == nullptr) {
         std::cerr << "Component not registered" << std::endl;
         return;
     }
-    getComponentArray<T>()->removeComponent(entity);
-    Signature signature = getComponentSignature<T>();
+    componentArray->removeComponent(entity);
+    Signature signature = componentArray->getSignature();
     Signature entitySignature = _entityManager->getSignature(entity);
     _entityManager->setSignature(entity, entitySignature & ~signature);
 }
@@ -56,11 +60,12 @@ void ComponentManager::removeComponent(Entity entity)
 template <typename T>
 T& ComponentManager::getComponent(Entity entity)
 {
-    if (getComponentArray<T>() == nullptr) {
+    std::shared_ptr<ComponentArray<T>> componentArray = getComponentArray<T>();
+    if (componentArray == nullptr) {
         std::cerr << "Component not registered, returning a temporary component" << std::endl;
         return *std::make_shared<T>();
     }
-    return getComponentArray<T>()->getComponent(entity);
+    return componentArray->getComponent(entity);
 }
 
 template <typename T>
@@ -68,18 +73,18 @@ void ComponentManager::registerComponent()
 {
     const char* typeName = typeid(T).name();
 
-    _componentsArray.push_back(std::make_pair(typeName, std::make_shared<ComponentArray<T>>()));
+    _componentsArray[typeName] = std::make_shared<ComponentArray<T>>();
+    Signature signature;
+    signature.set(_nextComponentSignature++, true);
+    _componentsArray[typeName]->setSignature(signature);
 }
 
 template <typename T>
 Signature ComponentManager::getComponentSignature()
 {
-    Signature signature;
+    const char* typeName = typeid(T).name();
 
-    for (int i = 0; i < _componentsArray.size(); i++)
-        if (_componentsArray[i].first == typeid(T).name())
-            signature.set(i, true);
-    return signature;
+    return _componentsArray[typeName]->getSignature();
 }
 
 template <typename T>
@@ -87,8 +92,5 @@ std::vector<Entity> ComponentManager::getAllEntitiesWithComponent()
 {
     std::vector<Entity> entities;
 
-    for (auto const& pair : _componentsArray)
-        if (pair.first == typeid(T).name())
-            return pair.second->getListOfEntities();
-    return entities;
+    return _componentsArray[typeid(T).name()]->getListOfEntities();
 }

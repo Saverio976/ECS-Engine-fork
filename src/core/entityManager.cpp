@@ -24,31 +24,21 @@ Entity EntityManager::createEntity()
     }
     Entity entity = _freeEntities.front();
     _freeEntities.pop();
-    _existingEntities.emplace_back(entity, 0);
+    _existingEntities[entity] = Signature();
     return entity;
 }
 
 void EntityManager::destroyEntity(Entity entity)
 {
-    std::vector<std::pair<Entity, Signature>> newExistingEntities;
-    for (auto &existingEntity : _existingEntities)
-        if (existingEntity.first != entity)
-            newExistingEntities.push_back(existingEntity);
-    _existingEntities = newExistingEntities;
     _freeEntities.push(entity);
 }
 
 void EntityManager::setSignature(Entity entity, Signature signature)
 {
-    for (auto &existingEntity : _existingEntities)
-        if (existingEntity.first == entity)
-            existingEntity.second = signature;
+    _existingEntities[entity] = signature;
 }
 
 Signature EntityManager::getSignature(Entity entity)
 {
-    for (auto &existingEntity : _existingEntities)
-        if (existingEntity.first == entity)
-            return existingEntity.second;
-    return 0;
+    return _existingEntities[entity];
 }

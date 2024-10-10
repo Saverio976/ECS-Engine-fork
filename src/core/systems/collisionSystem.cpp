@@ -2,6 +2,8 @@
  * ECS by Benjamin Bourge *
  *------------------------*/
 
+#include <algorithm>
+#include <execution>
 #include "../../../../include/core/systems/collisionSystem.hpp"
 #include "../../../../include/core/coordinator.hpp"
 #include "../../../../include/core/ecs.hpp"
@@ -26,22 +28,22 @@ void CollisionSystem::update(float deltaTime)
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::P) && isDebug() && !isServer())
         drawDebugBoxes();
 
-    for (auto const &entity : _entityMoved) {
+    for (auto entity: _entitiesThisFrame) {
         auto &boxCollider = coordinator->_componentManager->getComponent<BoxCollider>(entity);
         if (boxCollider._mode == COLLISION_MODE_STATIC)
-            continue;
+            return;
         auto &transform = coordinator->_componentManager->getComponent<Transform>(entity);
         boxCollider._entitiesCollided.clear();
 
-        for (auto const &entity2 : _entitiesThisFrame) {
+        for (auto entity2: _entitiesThisFrame) {
             if (entity == entity2)
-                continue;
+                return;
             if (!coordinator->hasComponent<BoxCollider>(entity2))
-                continue;
+                return;
 
             auto &boxCollider2 = coordinator->_componentManager->getComponent<BoxCollider>(entity2);
             if ((boxCollider._mask & boxCollider2._layer) == 0)
-                continue;
+                return;
             auto &transform2 = coordinator->_componentManager->getComponent<Transform>(entity2);
 
             if (!(transform._x + boxCollider._offsetX + boxCollider._width / 2 <= transform2._x + boxCollider2._offsetX - boxCollider2._width / 2 ||
@@ -52,7 +54,6 @@ void CollisionSystem::update(float deltaTime)
             }
         }
     }
-    _entityMoved.clear();
 }
 
 void CollisionSystem::drawDebugBoxes()
@@ -86,22 +87,10 @@ void CollisionSystem::drawDebugBoxes()
 
 void CollisionSystem::addedEntity(Entity entity)
 {
-    _entityMoved.push_back(entity);
+
 }
 
 void CollisionSystem::removedEntity(Entity entity)
 {
 
 }
-
-void CollisionSystem::entityMoved(Entity entity)
-{
-    bool found = false;
-
-    for (auto &e : _entityMoved)
-        if (e == entity)
-            found = true;
-    if (!found)
-        _entityMoved.push_back(entity);
-}
-

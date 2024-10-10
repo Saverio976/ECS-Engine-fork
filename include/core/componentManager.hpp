@@ -7,6 +7,7 @@
 #include <memory>
 #include <queue>
 #include <map>
+#include <unordered_map>
 #include "entity.hpp"
 #include "entityManager.hpp"
 
@@ -15,6 +16,8 @@ public:
     virtual ~IComponentArray() = default;
     virtual void entityDestroyed(Entity entity) = 0;
     virtual std::vector<Entity> getListOfEntities() = 0;
+    virtual Signature getSignature() = 0;
+    virtual void setSignature(Signature signature) = 0;
 };
 
 template<typename T>
@@ -29,8 +32,11 @@ public:
     T& getComponent(Entity entity);
     void entityDestroyed(Entity entity) override;
     virtual std::vector<Entity> getListOfEntities() override;
+    Signature getSignature() override { return _signature; }
+    void setSignature(Signature signature) override { _signature = signature; }
 
-    std::vector<std::pair<Entity, std::shared_ptr<T>>> _components;
+    std::unordered_map<Entity, std::shared_ptr<T>> _components;
+    Signature _signature;
 };
 
 #include "../../src/core/componentArray.tpp"
@@ -54,8 +60,10 @@ public:
     void entityDestroyed(Entity entity);
 
     std::shared_ptr<EntityManager> _entityManager;
+
+    int _nextComponentSignature = 0;
 private:
-    std::vector<std::pair<const char*, std::shared_ptr<IComponentArray>>> _componentsArray;
+    std::unordered_map<const char*, std::shared_ptr<IComponentArray>> _componentsArray;
 };
 
 #include "../../src/core/componentManager.tpp"

@@ -3,6 +3,7 @@
  *------------------------*/
 
 #pragma once
+#include <unordered_map>
 #include <vector>
 #include <queue>
 #include <memory>
@@ -21,8 +22,8 @@ public:
     Signature getSignature(Entity entity);
 
     std::shared_ptr<ComponentManager> _componentManager;
-    std::vector<std::pair<Entity, Signature>> getExistingEntities() { return _existingEntities;}
+    std::unordered_map<Entity, Signature> getExistingEntities() { return _existingEntities;}
 private:
-    std::vector<std::pair<Entity, Signature>> _existingEntities;
+    std::unordered_map<Entity, Signature> _existingEntities;
     std::queue<Entity> _freeEntities;
 };

@@ -14,6 +14,7 @@
 #include "../include/core/components/tag.hpp"
 #include "../include/core/components/camera.hpp"
 #include "../include/components/playerController.hpp"
+#include "../include/core/components/boxCollider.hpp"
 
 bool isDebug()
 {
@@ -49,6 +50,16 @@ int main()
     //put here your code to instanciate entities
     createPlayer(coordinator);
 
+    for (int i = 0; i < 300; i++) {
+        Entity entity = coordinator->createEntity();
+        coordinator->addComponent<Transform>(entity, Transform(rand() % 1920, rand() % 1080, 1, 1));
+        coordinator->addComponent<SpriteRenderer>(entity, SpriteRenderer(TEXTURE_TYPE_EXAMPLE, 32, 32));
+        coordinator->addComponent<Tag>(entity, Tag("enemy"));
+        coordinator->addComponent<BoxCollider>(entity, BoxCollider(32, 32));
+        auto &boxCollider = coordinator->_componentManager->getComponent<BoxCollider>(entity);
+        boxCollider._mode = COLLISION_MODE_DYNAMIC;
+    }
+
 
     if (serverRunning())
         return 0;
@@ -71,9 +82,9 @@ int main()
             fps++;
             timerFps += coordinator->_deltaTime;
             if (timerFps >= 1) {
-                //std::cout << fps << std::endl;
+                std::cout << fps << std::endl;
                 if (fps < 50)
-                    std::cerr << "Low fps, Cause:" << coordinator->_highConsumingSystem << " with " << coordinator->_highConsumingTime << "ms per frame" << std::endl;
+                    std::cerr << "Low fps, Cause:" << coordinator->_highConsumingSystem << " with " << coordinator->_highConsumingTime * 1000 << "ms per frame" << std::endl;
                 fps = 0;
                 timerFps = 0;
                 //coordinator->_networkManager->_clock.restart();

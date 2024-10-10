@@ -18,9 +18,5 @@ public:
     void addedEntity(Entity entity) override;
     void removedEntity(Entity entity) override;
 
-    void entityMoved(Entity entity);
-
-    std::vector<Entity> _entityMoved;
-
     void drawDebugBoxes();
 };
