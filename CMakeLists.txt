@@ -1,35 +1,61 @@
 cmake_minimum_required(VERSION 3.23)
 
 set(PROJECT_NAME ecs)
-project(${PROJECT_NAME})
-
 set(CMAKE_CXX_STANDARD 17)
 
-file( GLOB SRC src/*.cpp src/core/*.cpp src/core/systems/*.cpp src/core/components/*.cpp
-        src/content/*.cpp src/content/systems/*.cpp src/content/components/*.cpp)
-file (GLOB CLIENT src/client/*.cpp)
-file (GLOB SERVER src/server/*.cpp)
-
-add_executable(${PROJECT_NAME}
-        ${SRC}
-        ${CLIENT}
+project(
+    ${PROJECT_NAME}
+    VERSION 0.0.1
+    DESCRIPTION "ECS lib"
+    HOMEPAGE_URL "https://github.com/BenjosBourge/ECS-Engine"
+    LANGUAGES CXX
 )
 
-add_executable(${PROJECT_NAME}_Server
-        ${SRC}
-        ${SERVER}
+add_library(${PROJECT_NAME} STATIC)
+add_library(${PROJECT_NAME}:${PROJECT_NAME} ALIAS ${PROJECT_NAME})
+
+
+include(GNUInstallDirs)
+
+add_subdirectory(deps)
+
+target_include_directories(
+    ${PROJECT_NAME}
+    INTERFACE
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include>
 )
 
-include(build-SFML.cmake)
+add_subdirectory(src)
 
-add_custom_command(
-        TARGET ${PROJECT_NAME} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_BINARY_DIR}/assets"
-        COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_SOURCE_DIR}/assets" "${CMAKE_BINARY_DIR}/assets"
+target_compile_features(${PROJECT_NAME} INTERFACE cxx_std_17)
+
+include(CMakePackageConfigHelpers)
+
+set(ECS_INCLUDE_BUILD_DIR "${CMAKE_CURRENT_SOURCE_DIR}/include/")
+set(ECS_INCLUDE_INSTALL_DIR "${CMAKE_INSTALL_INCLUDEDIR}")
+
+install(
+    DIRECTORY ${ECS_INCLUDE_BUILD_DIR}
+    DESTINATION ${ECS_INCLUDE_INSTALL_DIR}
 )
 
-add_custom_command(
-        TARGET ${PROJECT_NAME}_Server POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_BINARY_DIR}/assets"
-        COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_SOURCE_DIR}/assets" "${CMAKE_BINARY_DIR}/assets"
+export(
+    TARGETS ${PROJECT_NAME}
+    NAMESPACE ${PROJECT_NAME}::
+    FILE ${PROJECT_NAME}Config.cmake
+)
+
+install(
+    TARGETS ${PROJECT_NAME}
+    EXPORT ${PROJECT_NAME}Targets
+    INCLUDES DESTINATION ${ECS_INCLUDE_INSTALL_DIR}
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
+install(
+    EXPORT ${PROJECT_NAME}Targets
+    NAMESPACE ${PROJECT_NAME}::
+    DESTINATION ${ECS_INCLUDE_INSTALL_DIR}
 )
